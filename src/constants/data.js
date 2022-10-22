@@ -1,6 +1,6 @@
-import img1 from "../assets/rectangle2.png"
-import img2 from "../assets/rectangle3.png"
-import img3 from "../assets/rectangle4.png"
+import img1 from "../assets/laptop.png"
+import img2 from "../assets/bulb.png"
+import img3 from "../assets/lego.png"
 
 export const courses = [
     {
