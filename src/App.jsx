@@ -28,7 +28,7 @@ const App = () => {
 
   const fetchUsers = async () => {
          
-    await getDocs(collection(db, "users"))
+    const unsubscribe = await getDocs(collection(db, "users"))
         .then((querySnapshot)=>{               
             const newData = querySnapshot.docs
                 .map((doc) => ({...doc.data(), id:doc.id }));
