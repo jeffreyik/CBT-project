@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type='email']:focus,
+input[type='password']:focus {
+  border-color: #000;
+}
