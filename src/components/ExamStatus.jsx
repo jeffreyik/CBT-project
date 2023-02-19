@@ -1,23 +1,25 @@
 import { courses } from "../constants/data"
+import { useAuthValue } from "../context/AuthContext"
 
 const ExamStatus = () => {
-  const courseName = courses.map(course => <h3 className="font-bold py-3" key={course.id}>{course.name}</h3>)
-  const courseStatus = courses.map(course => <h3 className="font-bold py-3 text-greenStatus" key={course.id}>{course.status + "%"}</h3>)
+  const { courses, loadingCourses } = useAuthValue()
+//   const courseName = courses.map(course => <h3 className="font-bold py-3" key={course.id}>{course.name}</h3>)
+//   const courseStatus = courses.map(course => <h3 className="font-bold py-3 text-greenStatus" key={course.id}>{course.status + "%"}</h3>)
 
   return (
     <div className="flex justify-between exam-status shadow-md rounded-[10px] mt-20 p-7">
         <div className="exam-paper w-[60%]">
             <h2 className="head font-bold text-secondary pb-4">Exam Paper</h2>
             <div>
-                { courseName }
+                { loadingCourses ? 'Loading...' :  courses.map(course => <h3 className="font-bold py-3" key={course.id}>{course.name}</h3>)}
             </div>
         </div>
-        <div className="status w-[30%]">
+        {/* <div className="status w-[30%]">
             <h2 className="head font-bold text-secondary pb-4">Status</h2>
             <div>
                 { courseStatus }
             </div>
-        </div>
+        </div> */}
     </div>
   )
 }

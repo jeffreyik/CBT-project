@@ -19,15 +19,17 @@ import Admin from "./pages/Admin";
 import AdminDashboard from "./pages/AdminDashboard";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
+import AddQuestions from "./pages/AddQuestions";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null)
   const [timeActive, setTimeActive] = useState(true)
   const [users, setUsers] = useState([{}])
   const [loading, setLoading] = useState(true)
+  const [courses, setCourses] = useState(null)
+  const [loadingCourses, setLoadingCourses] = useState(true)
 
   const fetchUsers = async () => {
-         
     const unsubscribe = await getDocs(collection(db, "users"))
         .then((querySnapshot)=>{               
             const newData = querySnapshot.docs
@@ -36,24 +38,36 @@ const App = () => {
             setLoading(false)      
             console.log(users, newData);
         })
-   
+}
+
+const fetchCourses = async () => {
+  const unsubscribe = await getDocs(collection(db, "courses"))
+        .then((querySnapshot)=>{               
+            const newData = querySnapshot.docs
+                .map((doc) => ({...doc.data(), id:doc.id }));
+            setCourses(newData);   
+            setLoadingCourses(false)    
+            console.log(courses, newData);
+        })
 }
 
 useEffect(()=>{
     fetchUsers();
+    fetchCourses()
 }, [])
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
       fetchUsers();
+      fetchCourses()
      })
   }, [])
 
   return (
     <div className="app font-poppins">
     <Router>
-      <AuthProvider value={{loading, users, setUsers, currentUser, timeActive, setTimeActive}}>
+      <AuthProvider value={{loadingCourses, courses, loading, users, setUsers, currentUser, timeActive, setTimeActive}}>
       <Routes>
         <Route path="/" element={
           <ProtectedRoute>
@@ -73,6 +87,7 @@ useEffect(()=>{
         } />
         <Route path='admin' element={<Admin />} >
           <Route index element={<AdminDashboard />} />
+          <Route path="add-question" element={<AddQuestions />} />
         </Route>
 
         <Route path="signup" element={<Signup />} />
