@@ -19,7 +19,6 @@ const Header = () => {
     const userAcc = users.find(user => user.user.id === currentUser.uid)
       console.log(userAcc.id)
       const docRef = doc(db, "users", userAcc.id);
-
       deleteDoc(docRef)
       .then(() => {
           console.log("Entire Document has been deleted successfully.")
